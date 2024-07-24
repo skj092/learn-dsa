@@ -24,49 +24,56 @@ class ListNode:
 
 def print_list(head):
     while head:
-        print(head.val, end=' ')
+        print(head.val)
         head = head.next
 
 
-def re_order(head):
-    # get the half
-    s, f = head, head
-    while f.next:
-        s = s.next
-        f = f.next.next
-    # rotate 2nd half
-    second = s.next
-    prev = None
+def create_linked_list(head_val):
+    # create a linked list
+    dummy = l1 = ListNode()
+    for i in head_val:
+        l1.next = ListNode(i)
+        l1 = l1.next
+    return dummy.next
+
+
+def reorder_list(head):
+    slow = head
+    fast = head
+    # Step 1: Go to the mid of list
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    # Step2: Reverse the second half
+    second = slow.next
+    prev = slow.next = None
     while second:
         temp = second.next
         second.next = prev
         prev = second
         second = temp
+    # Step3: Merge prev and head
+    one = head
+    two = prev
 
-    # Join
-    first, second = head, prev
-    while second:
-        temp1, temp2 = first.next, second.next
-        first.next = second
-        second.next = temp1
+    while two:
+        temp1, temp2 = one.next, two.next
+        one.next = two
+        two.next = temp1
 
-        first = temp1
-        second = temp2
+        one = temp1
+        two = temp2
 
-    print_list(head)
     return head
 
 
 if __name__ == "__main__":
-    l1 = temp1 = ListNode()
+    head = [1, 2, 3, 4, 5]
+    # create a linked list
+    l1 = create_linked_list(head)
+    print_list(l1)
 
-    vals1 = [1, 2, 3, 4, 5]
-
-    for v1 in vals1:
-        n1 = ListNode(val=v1)
-        temp1.next = n1
-        temp1 = temp1.next
-
-    print_list(l1.next)
-    print("\n ============")
-    s = re_order(l1.next)
+    print("=" * 30)
+    l2 = reorder_list(l1)
+    print_list(l2)
