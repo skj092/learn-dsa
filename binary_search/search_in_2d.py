@@ -15,38 +15,35 @@ Output: false
 '''
 
 
-def find_val(matrix, target):
-    row, col = len(matrix), len(matrix[0])
+def search_matrix(matrix, target):
+    row = len(matrix)
+    cols = len(matrix[0])
+    # step 1: find row
     top = 0
-    bot = row
-    # find row
+    bot = row - 1
+
     while top <= bot:
-        m = (top+bot)//2
-        if matrix[m][-1] < target:
-            top = m+1
-        elif matrix[m][0] > target:
-            bot = m-1
+        mid = (bot + top) // 2
+        if matrix[mid][-1] < target:
+            top = mid + 1
+        if matrix[mid][0] > target:
+            bot = mid - 1
         else:
             break
-    # find target
-    if not top <= bot:
-        return False
-    print(matrix[m])
+    # Step 2: Find value
     l = 0
-    r = col - 1
+    r = cols - 1
     while l < r:
-        md = (r+l)//2
-        if matrix[m][md] < target:
-            l = md + 1
-        elif matrix[m][md] > target:
-            r = md - 1
-        else:
-            print(matrix[m][md])
+        m = (r + l)//2
+        if matrix[mid][m] > target:
+            r = m - 1
+        elif matrix[mid][m] < target:
+            l = m + 1
+        elif matrix[mid][m] == target:
             return True
     return False
 
 
-if __name__ == "__main__":
-    matrix = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]]
-    target = 13
-    print(find_val(matrix, target))
+matrix = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]]
+target = 3
+print(search_matrix(matrix, target))

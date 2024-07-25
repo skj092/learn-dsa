@@ -49,11 +49,11 @@ def detect_cycle(head):
 
 
 if __name__ == "__main__":
-    head_val = [1, 2]
-    head_val = [1, 2, 3, 4, 5]
 
     # create a linked list
     l1 = create_linked_list(head_val)
     print_list(l1)
+    head = [3, 2, 0, -4]
+    pos = 1
 
     print(detect_cycle(l1))
