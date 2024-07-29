@@ -45,6 +45,4 @@ piles = [3, 6, 7, 11]
 h = 8
 piles = [30, 11, 23, 4, 20]
 h = 5
-piles = [312884470]
-h = 968709470
 print(min_eating_speed(piles, h))
