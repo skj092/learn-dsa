@@ -1,15 +1,24 @@
 '''
-Problem Statement: Input: root = [4,2,7,1,3,6,9]
-Output: [4,7,2,9,6,3,1]
+Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+
+Example 1:
+
+
+Input: p = [1,2,3], q = [1,2,3]
+Output: true
 Example 2:
 
 
-Input: root = [2,1,3]
-Output: [2,3,1]
+Input: p = [1,2], q = [1,null,2]
+Output: false
 Example 3:
 
-Input: root = []
-Output: []
+
+Input: p = [1,2,1], q = [1,1,2]
+Output: false
 
 '''
 
@@ -67,22 +76,22 @@ def print_tree(root):
     print(result)
 
 
-def invert_binary_tree(root):
-    if not root:
-        return None
+def is_same(p, q):
+    if p is None and q is None:
+        return True
+    if p is None or q is None:
+        return False
+    if p.val != q.val:
+        return False
 
-    root.left, root.right = root.right, root.left
-
-    invert_binary_tree(root.left)
-    invert_binary_tree(root.right)
-
-    return root
+    return is_same(p.left, q.left) and is_same(p.right, q.right)
 
 
 if __name__ == "__main__":
-    root_list = [4, 2, 7, 1, 3, 6, 9]
-
-    root = create_binary_tree(root_list)
-    print_tree(root)
-    inv = invert_binary_tree(root)
-    print_tree(inv)
+    p = [1, 2, 3]; q = [1, 2, 3]
+    p = [1,2]; q = [1,None,2]
+    p = create_binary_tree(p)
+    q = create_binary_tree(q)
+    print_tree(p)
+    print_tree(q)
+    print(is_same(p, q))

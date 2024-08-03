@@ -1,17 +1,13 @@
 '''
-Problem Statement: Input: root = [4,2,7,1,3,6,9]
-Output: [4,7,2,9,6,3,1]
+Input: root = [3,9,20,null,null,15,7]
+Output: 3
 Example 2:
 
-
-Input: root = [2,1,3]
-Output: [2,3,1]
-Example 3:
-
-Input: root = []
-Output: []
-
+Input: root = [1,null,2]
+Output: 2
 '''
+
+from collections import deque
 
 
 class TreeNode:
@@ -67,22 +63,49 @@ def print_tree(root):
     print(result)
 
 
-def invert_binary_tree(root):
+def max_depth(root):
     if not root:
-        return None
+        return 0
 
-    root.left, root.right = root.right, root.left
+    return 1 + max(max_depth(root.left), max_depth(root.right))
 
-    invert_binary_tree(root.left)
-    invert_binary_tree(root.right)
 
-    return root
+def max_depth(root):
+    if not root:
+        return 0
+
+    q = deque([root])
+    level = 0
+    while q:
+        for i in range(len(q)):
+            node = q.popleft()
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+
+        level += 1
+    return level
+
+
+def max_depth(root):
+    if not root:
+        return 0
+
+    q = [[root, 1]]
+    res = 0
+    while q:
+        node, depth = q.pop()
+        if node:
+            res = max(res, depth)
+            q.append([node.left, depth + 1])
+            q.append([node.right, depth + 1])
+    return res
 
 
 if __name__ == "__main__":
-    root_list = [4, 2, 7, 1, 3, 6, 9]
+    root = [3, 9, 20, None, None, 15, 7]
 
-    root = create_binary_tree(root_list)
+    root = create_binary_tree(root)
     print_tree(root)
-    inv = invert_binary_tree(root)
-    print_tree(inv)
+    print(max_depth(root))

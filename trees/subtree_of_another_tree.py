@@ -1,15 +1,17 @@
 '''
-Problem Statement: Input: root = [4,2,7,1,3,6,9]
-Output: [4,7,2,9,6,3,1]
+Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
+
+A subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.
+
+Example 1:
+
+Input: root = [3,4,5,1,2], subRoot = [4,1,2]
+Output: true
 Example 2:
 
 
-Input: root = [2,1,3]
-Output: [2,3,1]
-Example 3:
-
-Input: root = []
-Output: []
+Input: root = [3,4,5,1,2,None,None,None,None,0], subRoot = [4,1,2]
+Output: false
 
 '''
 
@@ -67,22 +69,36 @@ def print_tree(root):
     print(result)
 
 
-def invert_binary_tree(root):
-    if not root:
-        return None
+def is_subtree(p, q):
+    if not q:
+        return True
+    if not p:
+        return False
+    if is_same(p, q):
+        return True
 
-    root.left, root.right = root.right, root.left
+    return is_subtree(p.left, q) or is_subtree(p.right, q)
 
-    invert_binary_tree(root.left)
-    invert_binary_tree(root.right)
 
-    return root
+def is_same(p, q):
+    if not p and not q:
+        return True
+    if not p or not q:
+        return False
+    if p.val != q.val:
+        return False
+
+    return is_same(p.left, q.left) and is_same(p.right, q.right)
 
 
 if __name__ == "__main__":
-    root_list = [4, 2, 7, 1, 3, 6, 9]
-
-    root = create_binary_tree(root_list)
+    root = [3, 4, 5, 1, 2]
+    subRoot = [4, 1, 2]
+    #root = [3, 4, 5, 1, 2, None, None, None, None, 0]
+    #subRoot = [4, 1, 2]
+    root = create_binary_tree(root)
+    subRoot = create_binary_tree(subRoot)
     print_tree(root)
-    inv = invert_binary_tree(root)
-    print_tree(inv)
+    print_tree(subRoot)
+    print(is_same(root, subRoot))
+    print(is_subtree(root, subRoot))

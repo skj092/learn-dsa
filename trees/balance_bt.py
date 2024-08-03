@@ -1,15 +1,12 @@
 '''
-Problem Statement: Input: root = [4,2,7,1,3,6,9]
-Output: [4,7,2,9,6,3,1]
-Example 2:
+Given a binary tree, determine if it is
+height-balanced
 
+Input: root = [3,9,20,null,null,15,7]
+Output: true
 
-Input: root = [2,1,3]
-Output: [2,3,1]
-Example 3:
-
-Input: root = []
-Output: []
+Input: root = [1,2,2,3,3,null,null,4,4]
+Output: false
 
 '''
 
@@ -67,22 +64,22 @@ def print_tree(root):
     print(result)
 
 
-def invert_binary_tree(root):
-    if not root:
-        return None
+def check_balance(root):
+    def dfs(root):
+        if not root:
+            return [True, 0]
+        left, right = dfs(root.left), dfs(root.right)
+        balanced = left[0] and right[0] and abs(left[1] - right[1]) <= 1
+        return [balanced, 1 + max(left[1], right[1])]
 
-    root.left, root.right = root.right, root.left
-
-    invert_binary_tree(root.left)
-    invert_binary_tree(root.right)
-
-    return root
+    return dfs(root)[0]
 
 
 if __name__ == "__main__":
-    root_list = [4, 2, 7, 1, 3, 6, 9]
+    root = [3, 9, 20, None, None, 15, 7]
+    root = [1]
 
-    root = create_binary_tree(root_list)
+    # root = [1, 2, 2, 3, 3, None, None, 4, 4]
+    root = create_binary_tree(root)
     print_tree(root)
-    inv = invert_binary_tree(root)
-    print_tree(inv)
+    print(check_balance(root))

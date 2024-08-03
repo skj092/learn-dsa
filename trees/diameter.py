@@ -1,16 +1,17 @@
 '''
-Problem Statement: Input: root = [4,2,7,1,3,6,9]
-Output: [4,7,2,9,6,3,1]
+Given the root of a binary tree, return the length of the diameter of the tree.
+
+The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+The length of a path between two nodes is represented by the number of edges between them.
+
+Input: root = [1,2,3,4,5]
+Output: 3
+Explanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
 Example 2:
 
-
-Input: root = [2,1,3]
-Output: [2,3,1]
-Example 3:
-
-Input: root = []
-Output: []
-
+Input: root = [1,2]
+Output: 1
 '''
 
 
@@ -67,22 +68,27 @@ def print_tree(root):
     print(result)
 
 
-def invert_binary_tree(root):
-    if not root:
-        return None
+def diameter(root):
+    res = 0
 
-    root.left, root.right = root.right, root.left
+    def dfs(curr):
+        if not curr:
+            return 0
 
-    invert_binary_tree(root.left)
-    invert_binary_tree(root.right)
+        left = dfs(curr.left)
+        right = dfs(curr.right)
 
-    return root
+        nonlocal res
+        res = max(res, left + right)
+        return 1 + max(left, right)
+
+    dfs(root)
+
+    return res
 
 
 if __name__ == "__main__":
-    root_list = [4, 2, 7, 1, 3, 6, 9]
-
-    root = create_binary_tree(root_list)
+    root = list(range(12))
+    root = create_binary_tree(root)
     print_tree(root)
-    inv = invert_binary_tree(root)
-    print_tree(inv)
+    print(diameter(root))
